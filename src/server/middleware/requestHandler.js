@@ -2,12 +2,12 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
-import createStore from '../common/store';
-import routes from '../common/routes';
+import createStore from '../../common/store';
+import routes from '../../common/routes';
 import fetch from 'isomorphic-fetch';
 
 export default function(req, res, next) {
-	fetch('https://jsonplaceholder.typicode.com/users')
+	fetch('https://jsonplaceholder.typicode.com/userssssssss')
 		.then((response) => response.json())
 		.then((response) => {
 			let defaultState = { users: response };
