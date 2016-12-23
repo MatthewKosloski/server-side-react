@@ -6,9 +6,11 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import requestHandler from './src/server/requestHandler';
 import webpackConfig from './webpack.config';
 
+var constants = require('./constants');
+
 const app = express();
-const port = process.env.PORT || 9000;
-const env = process.env.NODE_ENV || 'production';
+const port = constants.PORT;
+const env = constants.ENV;
 
 app.set('views', path.join(__dirname, 'src/server/views'));
 app.set('view engine', 'ejs');
@@ -40,8 +42,6 @@ if(env !== 'production') {
 		noInfo: true
 	}));
 }
-
-delete process.env.BROWSER;
 
 app.use(requestHandler);
 

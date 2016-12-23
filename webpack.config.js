@@ -3,15 +3,15 @@ const cssnano = require('cssnano');
 const path = require('path');
 const resolve = require('path').resolve;
 
+var constants = require('./constants');
+
 // Plugins
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const IS_DEV = process.env.NODE_ENV !== 'production';
+const IS_DEV = constants.IS_DEV;
 
-const LOCAL_IDENT_NAME = IS_DEV ? 
-    '[name]-scss__[local]-class___[hash:base64:2]' 
-: '[hash:base64:2]';
+const LOCAL_IDENT_NAME = constants.LOCAL_IDENT_NAME;
 
 const globals = [
     resolve('./node_modules/normalize.css'), // any NPM module
@@ -46,7 +46,7 @@ module.exports = {
             // loader for CSS modules
             {
                 test: /\.s?css$/,
-                loader:  ExtractTextPlugin.extract('style', `css?modules!sass`),
+                loader:  ExtractTextPlugin.extract('style', `css?modules&localIdentName=${LOCAL_IDENT_NAME}!sass`),
                 include: cssModules,
                 exclude: globals
             },
@@ -62,7 +62,6 @@ module.exports = {
     plugins: IS_DEV ? [
         new webpack.DefinePlugin({
             'process.env': {
-                BROWSER: JSON.stringify(true),
                 NODE_ENV: JSON.stringify('development')
             }
         }),
@@ -72,7 +71,6 @@ module.exports = {
     ] : [
         new webpack.DefinePlugin({
             'process.env':{
-                BROWSER: JSON.stringify(true),
                 NODE_ENV: JSON.stringify('production')
             }
         }),

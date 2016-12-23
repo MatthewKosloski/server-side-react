@@ -19,6 +19,7 @@
     "babel-register-cli": "^2.0.1",
     "body-parser": "^1.15.2",
     "css-loader": "^0.25.0",
+    "css-modules-require-hook": "^4.0.5",
     "cssnano": "^3.7.6",
     "ejs": "^2.5.5",
     "enzyme": "^2.4.1",
@@ -48,9 +49,11 @@
   "scripts": {
     "test": "mocha --recursive --require babel-register --require ignore-styles || true",
     "test:watch": "mocha --watch --recursive --require babel-register --require ignore-styles || true",
-    "build": "webpack -p --progress",
-    "dev": "NODE_ENV=development nodemon start",
-    "start": "NODE_ENV=production npm run build && nodemon start"
+    "build": "NODE_ENV=production webpack -p --progress",
+    "serve:dev": "NODE_ENV=development nodemon start",
+    "serve:prod": "NODE_ENV=production nodemon start",
+    "dev": "NODE_ENV=development && npm run serve:dev",
+    "start": "NODE_ENV=production npm run build && npm run serve:prod"
   },
   "author": "",
   "license": "ISC"
