@@ -28,7 +28,12 @@ export default function(req, res, next) {
 							<RouterContext {...routeContext} />
 						</Provider>
 					);
-					res.status(200).render('index', { title: 'Server-Side React with Redux', html, state: JSON.stringify(initialState) });
+					res.status(200).render('index', { 
+						title: 'Server-Side React with Redux', 
+						state: JSON.stringify(initialState),
+						env: process.env.NODE_ENV,
+						html: html 
+					});
 				} else {
 					res.status(404).send('Not found');
 				}

@@ -1,12 +1,11 @@
 const webpack = require('webpack');
-const path = require('path');
 const cssnano = require('cssnano');
+const path = require('path');
 const resolve = require('path').resolve;
 
 // Plugins
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
@@ -20,17 +19,16 @@ const globals = [
 ];
 
 const cssModules = [
-    resolve('./src/common/components'), // CSS modules
-    resolve('./src/common/containers') // CSS modules
+    resolve('./src/common')
 ];
 
 module.exports = {
     devtool: IS_DEV ? 'cheap-eval-source-map' : 'source-map',
     entry: {
         bundle: [
-            './node_modules/normalize.css',
-            './src/client/scss/globals',
-            './src/client/app'
+            './node_modules/normalize.css', // any additional node modules
+            './src/client/scss/globals', // global styles
+            './src/client/app' // entry point
         ]
     },
     output: {
@@ -48,7 +46,7 @@ module.exports = {
             // loader for CSS modules
             {
                 test: /\.s?css$/,
-                loader:  ExtractTextPlugin.extract('style', `css?modules&localIdentName=${LOCAL_IDENT_NAME}!sass`),
+                loader:  ExtractTextPlugin.extract('style', `css?modules!sass`),
                 include: cssModules,
                 exclude: globals
             },
@@ -61,11 +59,11 @@ module.exports = {
             }
         ]
     },
-    plugins: IS_DEV ? 
-    [
+    plugins: IS_DEV ? [
         new webpack.DefinePlugin({
             'process.env': {
-                BROWSER: JSON.stringify(true)
+                BROWSER: JSON.stringify(true),
+                NODE_ENV: JSON.stringify('development')
             }
         }),
         new ExtractTextPlugin('css/[name].css', {
@@ -74,8 +72,8 @@ module.exports = {
     ] : [
         new webpack.DefinePlugin({
             'process.env':{
-                // NODE_ENV: JSON.stringify('production'),
-                BROWSER: JSON.stringify(true)
+                BROWSER: JSON.stringify(true),
+                NODE_ENV: JSON.stringify('production')
             }
         }),
         new webpack.optimize.DedupePlugin(),
@@ -105,11 +103,5 @@ module.exports = {
             bourbon: path.join(__dirname, '/node_modules/bourbon/app/assets/stylesheets/_bourbon.scss'),
             utils: path.join(__dirname, '/src/client/scss/utils')
         }
-    },
-    devServer: {
-        contentBase: './public',
-        port: 3000,
-        noInfo: true,
-        hot: false
     }
 };
