@@ -7,7 +7,7 @@ import routes from '../../common/routes';
 import fetch from 'isomorphic-fetch';
 
 export default function(req, res, next) {
-	fetch('https://jsonplaceholder.typicode.com/userssssssss')
+	fetch('https://jsonplaceholder.typicode.com/users')
 		.then((response) => response.json())
 		.then((response) => {
 			let defaultState = { users: response };
