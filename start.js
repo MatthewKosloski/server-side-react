@@ -16,4 +16,4 @@ require('css-modules-require-hook')({
     generateScopedName: constants.LOCAL_IDENT_NAME
 });
 
-require('./server');
+require('./src/server');

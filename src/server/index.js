@@ -3,19 +3,19 @@ import express from 'express';
 import webpack from 'webpack';
 import minifyHTML from 'express-minify-html';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import requestHandler from './src/server/requestHandler';
-import webpackConfig from './webpack.config';
+import requestHandler from './requestHandler';
+import webpackConfig from '../../webpack.config';
 
-var constants = require('./constants');
+var constants = require('../../constants');
 
 const app = express();
 const port = constants.PORT;
 const env = constants.ENV;
 
-app.set('views', path.join(__dirname, 'src/server/views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 app.disable('x-powered-by');
 
