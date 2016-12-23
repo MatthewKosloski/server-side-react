@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import createStore from '../common/store';
-import CounterContainer from '../common/containers/CounterContainer';
 import routes from '../common/routes';
 
 // Have client use the initial state defined by the server

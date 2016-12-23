@@ -16,11 +16,12 @@ const LOCAL_IDENT_NAME = IS_DEV ?
 
 const globals = [
     resolve('./node_modules/normalize.css'), // any NPM module
-    resolve('./src/client/scss/globals'), // global CSS classes
+    resolve('./src/client/scss/globals') // global CSS classes
 ];
 
 const cssModules = [
-    resolve('./src/client/components'), // CSS modules
+    resolve('./src/common/components'), // CSS modules
+    resolve('./src/common/containers') // CSS modules
 ];
 
 module.exports = {
@@ -62,13 +63,21 @@ module.exports = {
     },
     plugins: IS_DEV ? 
     [
+        new webpack.DefinePlugin({
+            'process.env': {
+                BROWSER: JSON.stringify(true)
+            }
+        }),
         new ExtractTextPlugin('css/[name].css', {
             allChunks: true
-        }),
-        // new HtmlWebpackPlugin({
-        //     template: './src/index.html'
-        // })
+        })
     ] : [
+        new webpack.DefinePlugin({
+            'process.env':{
+                // NODE_ENV: JSON.stringify('production'),
+                BROWSER: JSON.stringify(true)
+            }
+        }),
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
@@ -88,18 +97,7 @@ module.exports = {
                 } 
             },
             canPrint: true
-        }),
-        new webpack.DefinePlugin({
-            'process.env':{
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
-        // new HtmlWebpackPlugin({
-        //     template: './src/index.html',
-        //     minify: {
-        //         collapseWhitespace: true
-        //     }
-        // })
+        })
     ],
     resolve: {
         extensions: ['', '.js', '.css', '.scss'],

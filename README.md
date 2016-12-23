@@ -6,7 +6,7 @@ To install the dependencies, run `npm install`.
 
 ## Development
 ```
-  $ npm run server
+  $ npm run dev
 ```
 
 ## Production

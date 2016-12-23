@@ -1,7 +1,7 @@
 import path from 'path';
 import express from 'express';
 import webpack from 'webpack';
-import webpackMiddleware from 'webpack-dev-middleware';
+import webpackDevMiddleware from 'webpack-dev-middleware';
 import requestHandler from './requestHandler';
 import webpackConfig from '../../webpack.config';
 
@@ -13,13 +13,14 @@ app.set('view engine', 'ejs');
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
-if(IS_DEV) {
-	const compiler = webpack(webpackConfig);
-	app.use(webpackMiddleware(compiler, {
-		publicPath: webpackConfig.output.publicPath,
-		noInfo: true
-	}));
-}
+delete process.env.BROWSER;
+
+const compiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(compiler, {
+	publicPath: webpackConfig.output.publicPath,
+	historyApiFallback: true,
+	noInfo: true
+}));
 
 app.use(requestHandler);
 
